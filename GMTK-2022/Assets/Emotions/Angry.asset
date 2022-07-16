@@ -17,5 +17,6 @@ MonoBehaviour:
   SPEED: 2
   STRENGTH: 5
   WALKSPEEDANIMATOR: 0.8
-  COLOR: {r: 0.6981132, g: 0.121840514, b: 0.121840514, a: 1}
-  EFFECTS: {fileID: 0}
+  Panel: {fileID: 21300000, guid: 207e065afee29e6479a2e525a6ec11a2, type: 3}
+  COOLDOWN: 1
+  ATTACKTYPE: FISTS

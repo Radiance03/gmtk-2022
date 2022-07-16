@@ -18,12 +18,18 @@ public class GameManager : MonoBehaviour
     public GameObject Player;
 
     public GameObject TextInfo;
+    public GameObject TextInfo2;
+    public GameObject TextInfo3;
     public GameObject EmotionDisplay;
     public string EmotionName;
 
     public GameObject panel;
     public GameObject dice;
-    bool roll = true;
+    bool roll = false;
+    float attackCooldown;
+
+    //so it doesnt roll in the launch of the scene
+    float rollCooldown = 2;
  
 
     public void Start()
@@ -31,16 +37,21 @@ public class GameManager : MonoBehaviour
         order = -1;
         savedSwitch = 0;
         currentEmotion = emotions[0];
-        dice.GetComponent<Animator>().Play("DiceIdle");
+        //dice.GetComponent<Animator>().Play("DiceIdle");
+
 
 
 
     }
     public void Update()
     {
+        rollCooldown -= Time.deltaTime;
+        if(rollCooldown <= 0) { 
+        }
         savedSwitch -= Time.deltaTime;
 
-        if(savedSwitch <= 2 && roll)
+        
+        if(savedSwitch <= 2 && roll && rollCooldown < 0)
         {
             dice.GetComponent<Animator>().Play("DiceRoll");
             roll = false;
@@ -64,35 +75,51 @@ public class GameManager : MonoBehaviour
             Player.GetComponent<Player>().CurrentEmotionName = currentEmotion.NAME;
             EmotionDisplay.GetComponent<Image>().sprite = currentEmotion.IMAGE;
             EmotionName = currentEmotion.NAME;
+            attackCooldown = 0;
             // set currentEmotion.effect active
 
             //TEXT INFO
             string speedInfo;
             string strengthinfo;
-            if(currentEmotion.SPEED == 1) { speedInfo = "VERY SLOW"; }
+            if(currentEmotion.SPEED == 1) { speedInfo = "SLOWEST"; }
             else if (currentEmotion.SPEED == 2) { speedInfo = "SLOW"; }
             else if (currentEmotion.SPEED == 3) { speedInfo = "NORMAL"; }
             else if (currentEmotion.SPEED == 4) { speedInfo = "FAST"; }
-            else if (currentEmotion.SPEED == 5) { speedInfo = "SUPER FAST"; } else { speedInfo = "Error"; };
+            else if (currentEmotion.SPEED == 5) { speedInfo = "FASTEST"; } else { speedInfo = "Error"; };
 
-            if (currentEmotion.STRENGTH == 1) { strengthinfo = "VERY SLOW"; }
-            else if (currentEmotion.STRENGTH == 2) { strengthinfo = "SLOW"; }
+            if (currentEmotion.STRENGTH == 1) { strengthinfo = "WEAKEST"; }
+            else if (currentEmotion.STRENGTH == 2) { strengthinfo = "WEAK"; }
            else if (currentEmotion.STRENGTH == 3) { strengthinfo = "NORMAL"; }
-           else if (currentEmotion.STRENGTH == 4) { strengthinfo = "FAST"; }
-           else if (currentEmotion.STRENGTH == 5) { strengthinfo = "SUPER FAST"; } else { strengthinfo = "Error"; };
+           else if (currentEmotion.STRENGTH == 4) { strengthinfo = "STRONG"; }
+           else if (currentEmotion.STRENGTH == 5) { strengthinfo = "STRONGEST"; } else { strengthinfo = "Error"; };
 
             
-            panel.GetComponent<Image>().color = currentEmotion.COLOR;
+            panel.GetComponent<Image>().sprite = currentEmotion.Panel;
 
 
             TextInfo.GetComponent<Text>().text =
-                "YOU ARE " + currentEmotion.name + "\n"
-            +"SPEED IS " + speedInfo + " \n"
-             + "STRENGTH IS " + strengthinfo + "\n";
+                "YOU ARE : " + currentEmotion.name.ToUpper() + "\n"
+            +"SPEED : " + speedInfo.ToUpper() + "\n"
+            + "STRENGTH : " + strengthinfo.ToUpper() + "\n";
+
+            TextInfo2.GetComponent<Text>().text =
+                "ATTACK : " + currentEmotion.ATTACKTYPE;
+
+            TextInfo2.GetComponent<Text>().text =
+             "COOLDOWN : " + currentEmotion.COOLDOWN + " SECONDS";
+
+
 
 
 
         }
+        attackCooldown -= Time.deltaTime;
+        if(attackCooldown <= 0)
+        {
+            Player.GetComponent<Player>().AllowedToAttack = true;
+            attackCooldown = currentEmotion.COOLDOWN;
+        }
+
     }
 
     private void SetNewEmotion()

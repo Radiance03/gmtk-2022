@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName ="new emotion",menuName = "emotion")]
 public class Emotion : ScriptableObject
@@ -10,7 +11,9 @@ public class Emotion : ScriptableObject
     public int SPEED;
     public int STRENGTH;
     public float WALKSPEEDANIMATOR;
-    public Color COLOR;
+    public Sprite Panel;
+    public float COOLDOWN;
+    public string ATTACKTYPE;
 
-    public GameObject EFFECTS;
+    //public GameObject EFFECTS;
 }

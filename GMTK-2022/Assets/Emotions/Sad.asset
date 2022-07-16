@@ -17,5 +17,6 @@ MonoBehaviour:
   SPEED: 3
   STRENGTH: 2
   WALKSPEEDANIMATOR: 1
-  COLOR: {r: 0.10070309, g: 0.11732833, b: 0.2924528, a: 1}
-  EFFECTS: {fileID: 0}
+  Panel: {fileID: 21300000, guid: 341205f0c33a6264e8dc918508fb18a0, type: 3}
+  COOLDOWN: 6
+  ATTACKTYPE: RAIN
