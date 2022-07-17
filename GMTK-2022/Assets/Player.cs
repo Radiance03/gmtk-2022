@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //public BoxCollider2D HitCheckUp;
+  
+
+    public bool AllowedToHit = true;
+    public bool DisableHitForAttack = false;
+    private bool StartLastSecondCooldown = false;
+    float HitCooldown = 2;
+    float extraSecondAttackCooldown = 1;
+
+    float savedCooldown;
+    public int HP = 100;
 
     bool idleForward = false;
     private Animator anim;
@@ -15,10 +26,12 @@ public class Player : MonoBehaviour
     public string CurrentEmotionName = "Stable";
     public float currentEmotionCooldown;
 
-    bool attacking = false;
-    float attackDelay = 0.6f;
+    public bool attacking = false;
+    float attackDelay = 0.4f;
     float attackDelaySave;
     public bool AllowedToAttack = true;
+
+    float redwhiteEffect = 0.2f;
 
 
     public GameObject star;
@@ -27,6 +40,7 @@ public class Player : MonoBehaviour
     public GameObject Cloud;
     void Start()
     {
+        savedCooldown = HitCooldown;
         attackDelaySave = attackDelay;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -34,9 +48,37 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (!AllowedToHit && !DisableHitForAttack)
+        {
+            redwhiteEffect -= Time.deltaTime;
+            savedCooldown -= Time.deltaTime;
+            Debug.Log(savedCooldown);
+            if(savedCooldown <= 0)
+            {
+                AllowedToHit = true;
+                savedCooldown = HitCooldown;
+            }
+            if(redwhiteEffect <= 0)
+            {
+                if (transform.GetComponent<SpriteRenderer>().color == Color.red) { transform.GetComponent<SpriteRenderer>().color = Color.white; }
+                else { transform.GetComponent<SpriteRenderer>().color = Color.red; }
+                redwhiteEffect = 0.1f;
+
+            }
+        }
+        else
+        {
+            transform.GetComponent<SpriteRenderer>().color = Color.white;
+
+        }
         anim.speed = WalkSpeed;
-      
-        transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 16 , transform.localScale.y, transform.localScale.z);
+
+        if(Mathf.Abs(rb.velocity.x) > 0.2)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 16, transform.localScale.y, transform.localScale.z);
+
+        }
+
 
         if (!attacking)
         {
@@ -45,7 +87,7 @@ public class Player : MonoBehaviour
 
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
 
-            if (rb.velocity == Vector2.zero)
+            if ( Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
             {
                 if (!idleForward) { anim.Play($"Idle{CurrentEmotionName}"); }
                 else { anim.Play("Idleback"); }
@@ -83,8 +125,11 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && AllowedToAttack)
         {
+            DisableHitForAttack = true;
             AllowedToAttack = false;
-            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * 3;
+            
+            //HitCooldown = 3;
 
             attacking = true;
             if(rb.velocity.y == 0)
@@ -125,6 +170,8 @@ public class Player : MonoBehaviour
             attackDelaySave -= Time.deltaTime;
             if(attackDelaySave <= 0)
             {
+                StartLastSecondCooldown = true;
+              
                 attacking = false;
                 attackDelaySave = attackDelay;
             }
@@ -144,6 +191,17 @@ public class Player : MonoBehaviour
 
                 AllowStarCreation = false;
 
+            }
+
+        }
+        if (StartLastSecondCooldown)
+        {
+            extraSecondAttackCooldown -= Time.deltaTime;
+            if(extraSecondAttackCooldown <= 0)
+            {
+                extraSecondAttackCooldown = 1;
+                DisableHitForAttack = false;
+                StartLastSecondCooldown = false;
             }
         }
         

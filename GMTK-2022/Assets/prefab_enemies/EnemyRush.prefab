@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 58546022360220776}
   - component: {fileID: 212851633692525760}
   - component: {fileID: 50281375492264250}
+  - component: {fileID: 9217375560181481450}
   m_Layer: 0
-  m_Name: enemy4
+  m_Name: EnemyRush
   m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,13 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf08665dde2892f43984cb0819de57f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 10
   speed: 2.2
   hp: 30
   damage: 1
   fireRate: 2
   fireDeg: 45
   range: 4
-  sightRange: 3
+  sightRange: 1
   evasionRange: 2
 --- !u!58 &58546022360220776
 CircleCollider2D:
@@ -109,8 +111,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: df1830007b04d4e4abee5ed3f2aebfd3, type: 3}
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: 4c3eb32de3e9852439cee042d244f60d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -141,4 +143,23 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!95 &9217375560181481450
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353859199803150}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99d1144f6d833ff4bae0385ff8666ca2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
 
     public Emotion[] emotions;
-    Emotion currentEmotion;
+    public Emotion currentEmotion;
     string lastEmotion;
 
     public int[] SwitchTimers;
@@ -106,14 +106,17 @@ public class GameManager : MonoBehaviour
             TextInfo2.GetComponent<Text>().text =
                 "ATTACK : " + currentEmotion.ATTACKTYPE;
 
-            TextInfo2.GetComponent<Text>().text =
-             "COOLDOWN : " + currentEmotion.COOLDOWN + " SECONDS";
+           
 
 
 
 
 
         }
+        TextInfo3.GetComponent<Text>().text =
+               "NEXT ROLL : " + savedSwitch + " SECONDS";
+        TextInfo2.GetComponent<Text>().text =
+            "COOLDOWN : " + currentEmotion.COOLDOWN + " SECONDS    HP : " + Player.GetComponent<Player>().HP;
         attackCooldown -= Time.deltaTime;
         if(attackCooldown <= 0)
         {

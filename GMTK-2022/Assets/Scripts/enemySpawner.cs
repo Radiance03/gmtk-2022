@@ -15,6 +15,8 @@ public class enemySpawner : MonoBehaviour {
     public bool isEndless;
     public float endlessStatMultiplier;
 
+    public Transform[] spawnPos;
+
     //public enemyScript[] enemyScripts = new enemyScript[4];
 
     private float timeLeft;
@@ -42,8 +44,7 @@ public class enemySpawner : MonoBehaviour {
             {
                 for (int k = 0; k < enemyCount[i][j]; k++)
                 {
-                    Instantiate(enemies[j], new Vector3(pos.x + rnd.Next(spawnRadius + 1) - spawnRadius / 2,
-                        pos.y + rnd.Next(spawnRadius + 1) - spawnRadius / 2), Quaternion.identity);
+                    Instantiate(enemies[j],new Vector2(spawnPos[k].position.x + Random.Range(-2,2), spawnPos[k].position.y + Random.Range(-2, 2)), Quaternion.identity);
                 }
             }
             i++;

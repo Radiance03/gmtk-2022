@@ -25,6 +25,7 @@ public class pickupScript : MonoBehaviour
     {
         spawnLocation(-3,3,-2,2);
         
+        
     }
 
     // Update is called once per frame

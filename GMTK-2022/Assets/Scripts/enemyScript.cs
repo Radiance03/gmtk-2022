@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class enemyScript : MonoBehaviour {
 
+    private GameObject GameManage;
+    public float HP = 10;
     public float speed;
-    public int hp;
     public int damage;
     public int fireRate; //frames between shots
     public float fireDeg; //degrees of randomness in arc of bullets
@@ -20,45 +21,125 @@ public class enemyScript : MonoBehaviour {
     private float newSpeed;
     private int newHp;
     private int newDamage;
+    bool reachedMid = false;
+    Vector2 randPos;
+    float cooldown = 6;
+    Vector2 Direction;
+
+
+    Rigidbody2D rb;
+    Animator anim;
+   
+
 
     // Use this for initialization
     void Start () {
-        player = GameObject.FindGameObjectWithTag("Player");
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+
+        player = GameObject.Find("Player");
         newSpeed = speed;
-        newHp = hp;
         newDamage = damage;
+        randPos = new Vector3(0,0 );
+         Direction = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0) - gameObject.transform.position;
+        GameManage = GameObject.Find("GameManager");
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-        Vector3 target = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, newSpeed * Time.deltaTime);
-        if (Vector3.Distance(gameObject.transform.position, player.transform.position) >= sightRange)
+
+    // Update is called once per frame
+    void Update () {
+
+
+        transform.GetComponent<SpriteRenderer>().sortingOrder =300 -(int)(transform.position.y * 10) ;
+        transform.GetComponent<SpriteRenderer>().color = new Color(HP/10, HP/10, HP/10, 1);
+     
+
+        if (reachedMid)
         {
-            gameObject.transform.position = target;
-        }
-        else if (Vector3.Distance(gameObject.transform.position, player.transform.position) >= evasionRange)
-        {
-            //shoot
+            if (Vector3.Distance(transform.position, player.transform.position) > 1.3f)
+            {
+                Vector2 Direction = player.transform.position - gameObject.transform.position;
+                rb.velocity = Direction.normalized;
+            }
+            else
+            {
+                //rb.velocity = Vector2.zero;
+
+                if (!player.GetComponent<Player>().DisableHitForAttack)
+                {
+                    if (player.GetComponent<Player>().AllowedToHit)
+                    {
+                        player.GetComponent<Player>().HP -= 10;
+                        player.GetComponent<Player>().AllowedToHit = false;
+                    }
+                }
+                
+              
+            }
+
+
         }
         else
         {
-            gameObject.transform.position = gameObject.transform.position - (target - gameObject.transform.position);
+            cooldown -= Time.deltaTime;
+            if(cooldown <= 0) { reachedMid = true; }
+            rb.velocity = Direction.normalized;
+
+            
+           
         }
-	}
-    /*
-    public void increaseStats(float mult)
-    {
-        if (firstSpawn)
+
+        if(Mathf.Abs(rb.velocity.y) > 0.3)
         {
-            newSpeed = speed;
-            newHp = hp;
-            newDamage = damage;
-            firstSpawn = false;
+
+            if(player.transform.position.y > transform.position.y  ) { anim.Play("enemyForward"); }
+            else { anim.Play("enemyBackwards"); }
+
         }
-        //Debug.Log(originalSpeed);
-        //Debug.Log(originalSpeed * mult);
-        newSpeed = speed * mult;
-        newHp = (int)Mathf.Floor(hp * mult);
-        newDamage = (int)Mathf.Floor(damage * mult);
-    }*/
+        else
+        {
+            transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 0.5f, 0.5f, 1);
+
+            anim.Play("enemySide");
+        }
+
+
+        if (AlreadyDamaged)
+        {
+            Delay -= Time.deltaTime;
+            if (Delay <= 0)
+            {
+                Delay = 1f;
+                AlreadyDamaged = false;
+            }
+        }
+
+
+
+
+    }
+
+    bool AlreadyDamaged = false;
+    float Delay = 1f;
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!AlreadyDamaged)
+        {
+            if (collision.gameObject.tag == "Player" && player.GetComponent<Player>().attacking)
+            {
+                HP -= GameManage.GetComponent<GameManager>().currentEmotion.STRENGTH;
+                if (HP <= 0)
+                {
+                    Destroy(gameObject);
+                }
+                AlreadyDamaged = true;
+
+
+            }
+           
+        }
+        
+    }
+
+
 }
