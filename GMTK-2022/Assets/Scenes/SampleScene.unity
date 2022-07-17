@@ -741,6 +741,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 364d7ebf3dec1254784c01f885ab6b72, type: 2}
   - {fileID: 11400000, guid: 1cdf737e736cc5347ac1360dfd8486dd, type: 2}
   - {fileID: 11400000, guid: 713557e0be82ee045985e3e01172476e, type: 2}
+  currentEmotion: {fileID: 0}
   SwitchTimers: 0a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000
   savedSwitch: 0
   Player: {fileID: 1481796063}
@@ -798,11 +799,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857e0a8bfe83c1c42ad8544d183e9f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowedToHit: 1
+  DisableHitForAttack: 0
+  HP: 100
   speed: 0
   strength: 0
   WalkSpeed: 0
   CurrentEmotionName: Angry
   currentEmotionCooldown: 0
+  attacking: 0
   AllowedToAttack: 0
   star: {fileID: 1109308474879619325, guid: b98f0dec4042d5e4cb2842755f6a2f1a, type: 3}
   Cloud: {fileID: 1776197848852834079, guid: 824a1c9f689c26149b9df06d102f0de7, type: 3}

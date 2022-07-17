@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cloud : MonoBehaviour
 {
+    public bool foolowPlayer;
     private GameObject player;
     // Start is called before the first frame update
     void Start()
@@ -14,7 +15,11 @@ public class Cloud : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 2);
-        Destroy(gameObject, 3);
+        if (foolowPlayer)
+        {
+            transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 2);
+
+        }
+        Destroy(gameObject, 5);
     }
 }

@@ -3,11 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< Updated upstream
   tags:
   - enemy
   - pickup
   - gameManager
   - map
+=======
+  tags: []
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX

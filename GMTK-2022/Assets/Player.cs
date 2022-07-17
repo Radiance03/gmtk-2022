@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //public BoxCollider2D HitCheckUp;
-  
 
     public bool AllowedToHit = true;
     public bool DisableHitForAttack = false;
@@ -33,6 +32,9 @@ public class Player : MonoBehaviour
 
     float redwhiteEffect = 0.2f;
 
+    public AudioSource kick;
+    public AudioSource damage;
+    public AudioSource starSound;
 
     public GameObject star;
     bool AllowStarCreation = true;
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     public GameObject Cloud;
     void Start()
     {
+       
         savedCooldown = HitCooldown;
         attackDelaySave = attackDelay;
         anim = GetComponent<Animator>();
@@ -48,6 +51,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        transform.GetComponent<SpriteRenderer>().sortingOrder = 300 - (int)(transform.position.y * 10);
+
         if (!AllowedToHit && !DisableHitForAttack)
         {
             redwhiteEffect -= Time.deltaTime;
@@ -125,6 +130,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && AllowedToAttack)
         {
+            kick.Play();
             DisableHitForAttack = true;
             AllowedToAttack = false;
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * 3;
@@ -141,7 +147,16 @@ public class Player : MonoBehaviour
                 else
                 {
                     anim.Play("SideAttack");
+                    if(CurrentEmotionName == "Angry")
+                    {
+                        anim.Play("AngrySideAttack");
+                    }
 
+                }
+
+                if (CurrentEmotionName == "Sad")
+                {
+                    anim.Play("SadAttack");
                 }
             }
             else
@@ -152,17 +167,41 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    if (rb.velocity.y > 0) { anim.Play("ForwardAttack"); };
-                    if (rb.velocity.y < 0) { anim.Play("BackwardsAttack"); };
+                    if (rb.velocity.y > 0) { 
+                        anim.Play("ForwardAttack"); };
+                    if (rb.velocity.y < 0) {
+                        anim.Play("BackwardsAttack");
+                        if(CurrentEmotionName == "Angry")
+                        {
+                            anim.Play("AngryFrontAttack");
+                        }
+                    };
                 }
-              
+
+                if (CurrentEmotionName == "Sad")
+                {
+                    anim.Play("SadAttack");
+                }
+
             }
 
 
             //-------EXTRA INSTANTIATION--------
             if(CurrentEmotionName == "Sad")
             {
-                Instantiate(Cloud, transform.position, Quaternion.identity);
+                var q = Instantiate(Cloud, transform.position, Quaternion.identity);
+                q.GetComponent<Cloud>().foolowPlayer = true;
+                 Instantiate(Cloud, new Vector2(transform.position.x + 6, transform.position.y), Quaternion.identity);
+                Instantiate(Cloud, new Vector2(transform.position.x + -6, transform.position.y), Quaternion.identity);
+                Instantiate(Cloud, new Vector2(transform.position.x, transform.position.y + 6), Quaternion.identity);
+                Instantiate(Cloud, new Vector2(transform.position.x, transform.position.y + 6), Quaternion.identity);
+
+
+
+
+
+
+
             }
         }
         if (attacking)
@@ -188,6 +227,9 @@ public class Player : MonoBehaviour
                 x.GetComponent<Rigidbody2D>().velocity = new Vector2(-7, 7);
                 var t = Instantiate(star, new Vector2(transform.position.x + 1, transform.position.y - 1), Quaternion.identity);
                 t.GetComponent<Rigidbody2D>().velocity = new Vector2(7, -7);
+                starSound.Play();
+
+
 
                 AllowStarCreation = false;
 

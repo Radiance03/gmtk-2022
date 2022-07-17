@@ -49,8 +49,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 10
+<<<<<<< Updated upstream
   speed: 1.5
   damage: 5
+=======
+  speed: 2.2
+  damage: 1
+>>>>>>> Stashed changes
   fireRate: 2
   fireDeg: 45
   range: 4

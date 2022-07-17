@@ -6,7 +6,15 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioSource Happy;
+    public AudioSource Sad;
+    public AudioSource Angry;
+    public AudioSource Stable;
 
+
+
+    //public AudioSource EmotionTransition;
+    public AudioSource EnemyDeath;
     public Emotion[] emotions;
     public Emotion currentEmotion;
     string lastEmotion;
@@ -89,6 +97,7 @@ public class GameManager : MonoBehaviour
         }
         if (savedSwitch <= 0) //time to change emotion!
         {
+            //EmotionTransition.Play();
             roll = true;
             order++;
             if(order < SwitchTimers.Length) 
@@ -108,6 +117,8 @@ public class GameManager : MonoBehaviour
             //Debug.Log(currentEmotion.name);
 
             //set speed, strength, picture, text, effect
+            
+
             Player.GetComponent<Player>().speed = currentEmotion.SPEED;
             Player.GetComponent<Player>().strength = currentEmotion.STRENGTH;
             Player.GetComponent<Player>().WalkSpeed = currentEmotion.WALKSPEEDANIMATOR;
@@ -144,15 +155,13 @@ public class GameManager : MonoBehaviour
             TextInfo2.GetComponent<Text>().text =
                 "ATTACK : " + currentEmotion.ATTACKTYPE;
 
-           
-
-
-
-
-
+            if (currentEmotion.NAME == "Happy") { Happy.Play(); Sad.Pause(); Angry.Pause(); Stable.Pause(); }
+            if (currentEmotion.NAME == "Sad") { Sad.Play(); Stable.Pause(); Angry.Pause(); Happy.Pause(); }
+            if (currentEmotion.NAME == "Angry") { Angry.Play(); Sad.Pause(); Stable.Pause(); Happy.Pause(); }
+            if (currentEmotion.NAME == "Stable") { Stable.Play(); Sad.Pause(); Angry.Pause(); Happy.Pause(); }
         }
         TextInfo3.GetComponent<Text>().text =
-               "NEXT ROLL : " + savedSwitch + " SECONDS";
+               "NEXT ROLL : " + savedSwitch.ToString("F1") + " SECONDS";
         TextInfo2.GetComponent<Text>().text =
             "COOLDOWN : " + currentEmotion.COOLDOWN + " SECONDS    HP : " + Player.GetComponent<Player>().HP;
         attackCooldown -= Time.deltaTime;

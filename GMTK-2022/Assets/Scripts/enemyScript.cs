@@ -72,6 +72,7 @@ public class enemyScript : MonoBehaviour {
                     {
                         player.GetComponent<Player>().HP -= damage;
                         player.GetComponent<Player>().AllowedToHit = false;
+                        player.GetComponent<Player>().damage.Play();
                     }
                 }
                 
@@ -131,6 +132,7 @@ public class enemyScript : MonoBehaviour {
                 HP -= GameManage.GetComponent<GameManager>().currentEmotion.STRENGTH;
                 if (HP <= 0)
                 {
+                    GameManage.GetComponent<GameManager>().EnemyDeath.Play();
                     Destroy(gameObject);
                     GameManage.GetComponent<GameManager>().enemyAmount -= 1;
                 }

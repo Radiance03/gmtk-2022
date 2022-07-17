@@ -14,6 +14,7 @@ public class Emotion : ScriptableObject
     public Sprite Panel;
     public float COOLDOWN;
     public string ATTACKTYPE;
+   // public AudioSource Jam;
 
     //public GameObject EFFECTS;
 }
