@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     string lastEmotion;
 
     public int[] SwitchTimers;
-    float savedSwitch;
+    public float savedSwitch;
     int order;
 
     public GameObject Player;
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
             roll = true;
             order++;
             savedSwitch = SwitchTimers[order];
+            
 
             SetNewEmotion();
 
