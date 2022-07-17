@@ -9,11 +9,11 @@ public class SceneManagment :MonoBehaviour
     
     public  void StartGame()
     {
-        SceneManager.LoadScene("LEVELS");
+        SceneManager.LoadScene("LEVEL1FINAL");
     }
     public void StartLevel1()
     {
-        SceneManager.LoadScene("LEVEL1");
+        SceneManager.LoadScene("LEVELINFINITE");
     }
     public void LoadOptions()
     {

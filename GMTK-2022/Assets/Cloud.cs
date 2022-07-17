@@ -20,6 +20,6 @@ public class Cloud : MonoBehaviour
             transform.position = new Vector2(player.transform.position.x, player.transform.position.y + 2);
 
         }
-        Destroy(gameObject, 5);
+        Destroy(gameObject, 3);
     }
 }

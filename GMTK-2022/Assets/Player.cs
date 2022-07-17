@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     public float currentEmotionCooldown;
 
     public bool attacking = false;
-    float attackDelay = 0.4f;
+    float attackDelay = 0.8f;
     float attackDelaySave;
     public bool AllowedToAttack = true;
 
@@ -157,6 +157,10 @@ public class Player : MonoBehaviour
                 if (CurrentEmotionName == "Sad")
                 {
                     anim.Play("SadAttack");
+                }
+                if (CurrentEmotionName == "angry")
+                {
+                    anim.Play("AngryAttack");
                 }
             }
             else
