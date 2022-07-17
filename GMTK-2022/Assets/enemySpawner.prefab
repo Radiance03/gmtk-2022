@@ -47,16 +47,11 @@ MonoBehaviour:
   firstWaveDelay: 5
   spawnRadius: 4
   waveCount: 3
-  wave1: 00000000000000000000000000000000
+  wave1: 010000000100000001000000
   enemies:
-  - {fileID: 1600531965794416, guid: 39f6bcc7158c7484e911f4464059e9ac, type: 3}
-  - {fileID: 1245823645668936, guid: 4b56e67d7eeb16e4798930eabf9b7de2, type: 3}
-  - {fileID: 1873547007783516, guid: 82e4d0fcdfed9334691e747866fe7111, type: 3}
   - {fileID: 1353859199803150, guid: 6e6bdf3b48b96e649946d8448f9f9aa6, type: 3}
+  - {fileID: 5532936742186468274, guid: 36af19f45b480414ea37fc1009f5e9fd, type: 3}
+  - {fileID: 3579243829687135573, guid: c1be497cd632654428420ac2fe607420, type: 3}
   isEndless: 0
   endlessStatMultiplier: 0
-  enemyScripts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  spawnPos: []

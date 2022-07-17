@@ -43,6 +43,7 @@ public class enemyScript : MonoBehaviour {
         randPos = new Vector3(0,0 );
          Direction = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0) - gameObject.transform.position;
         GameManage = GameObject.Find("GameManager");
+        GameManage.GetComponent<GameManager>().enemyAmount += 1;
 
     }
 
@@ -59,7 +60,7 @@ public class enemyScript : MonoBehaviour {
             if (Vector3.Distance(transform.position, player.transform.position) > 1.3f)
             {
                 Vector2 Direction = player.transform.position - gameObject.transform.position;
-                rb.velocity = Direction.normalized;
+                rb.velocity = Direction.normalized * speed;
             }
             else
             {
@@ -69,7 +70,7 @@ public class enemyScript : MonoBehaviour {
                 {
                     if (player.GetComponent<Player>().AllowedToHit)
                     {
-                        player.GetComponent<Player>().HP -= 10;
+                        player.GetComponent<Player>().HP -= damage;
                         player.GetComponent<Player>().AllowedToHit = false;
                     }
                 }
@@ -83,7 +84,7 @@ public class enemyScript : MonoBehaviour {
         {
             cooldown -= Time.deltaTime;
             if(cooldown <= 0) { reachedMid = true; }
-            rb.velocity = Direction.normalized;
+            rb.velocity = Direction.normalized * speed;
 
             
            
@@ -131,6 +132,7 @@ public class enemyScript : MonoBehaviour {
                 if (HP <= 0)
                 {
                     Destroy(gameObject);
+                    GameManage.GetComponent<GameManager>().enemyAmount -= 1;
                 }
                 AlreadyDamaged = true;
 

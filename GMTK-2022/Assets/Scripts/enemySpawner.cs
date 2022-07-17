@@ -10,8 +10,11 @@ public class enemySpawner : MonoBehaviour {
     List<int[]> enemyCount = new List<int[]>();
     public int waveCount;
     //if endless, wave 1 will be base wave, and enemies will add onto it.
-    public int[] wave1 = new int[4]; //spawns of enemy1, enemy2 ...
-    public GameObject[] enemies = new GameObject[4];
+    public int[] wave1 = new int[3]; //num of spawns of enemy1, enemy2 ...
+    public int[] wave2 = new int[3];
+    public int[] wave3 = new int[3];
+    public GameObject[] enemies = new GameObject[3];
+    public GameObject manager;
     public bool isEndless;
     public float endlessStatMultiplier;
 
@@ -29,6 +32,8 @@ public class enemySpawner : MonoBehaviour {
         timeLeft = firstWaveDelay;
         i = 0;
         enemyCount.Add(wave1);
+        enemyCount.Add(wave2);
+        enemyCount.Add(wave3);
         pos = gameObject.transform.position;
         for (int w = 0; w < wave1.Length; w++) sum += wave1[w];
     }
@@ -44,10 +49,17 @@ public class enemySpawner : MonoBehaviour {
             {
                 for (int k = 0; k < enemyCount[i][j]; k++)
                 {
-                    Instantiate(enemies[j],new Vector2(spawnPos[k].position.x + Random.Range(-2,2), spawnPos[k].position.y + Random.Range(-2, 2)), Quaternion.identity);
+                    //Debug.Log(j);
+                    Instantiate(enemies[j],new Vector2(gameObject.transform.position.x + Random.Range(-spawnRadius,spawnRadius), 
+                    gameObject.transform.position.y + Random.Range(-spawnRadius, spawnRadius)), Quaternion.identity);
                 }
             }
             i++;
+            if(i == waveCount)
+            {
+                manager.GetComponent<GameManager>().lastWave = true;
+                Debug.Log("true");
+            }
         }
         else if (timeLeft <= 0 && isEndless)
         {
@@ -63,13 +75,14 @@ public class enemySpawner : MonoBehaviour {
             {
                 for (int k = 0; k < enemyCount[0][j]; k++)
                 {
+                    //manager.GetComponent<GameManager>().enemyAmount += 1;
                     //enemyScripts[j].increaseStats(Mathf.Pow(endlessStatMultiplier, i));
                     Instantiate(enemies[j], new Vector3(pos.x + rnd.Next(spawnRadius + 1) - spawnRadius / 2,
                         pos.y + rnd.Next(spawnRadius + 1) - spawnRadius / 2), Quaternion.identity);
+                    
                 }
             }
-
-            
         }
+            
 	}
 }

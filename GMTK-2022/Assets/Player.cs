@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         {
             redwhiteEffect -= Time.deltaTime;
             savedCooldown -= Time.deltaTime;
-            Debug.Log(savedCooldown);
+            //Debug.Log(savedCooldown);
             if(savedCooldown <= 0)
             {
                 AllowedToHit = true;

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public int[] SwitchTimers;
     public float savedSwitch;
+    public float deafultTime;
     int order;
 
     public GameObject Player;
@@ -27,6 +28,14 @@ public class GameManager : MonoBehaviour
     public GameObject dice;
     bool roll = false;
     float attackCooldown;
+
+    public int enemyAmount = 0;
+    public bool lastWave = false;
+    
+    public GameObject nextMsg;
+    public string nextScene;
+
+    private float endTimer = 5;
 
     //so it doesnt roll in the launch of the scene
     float rollCooldown = 2;
@@ -45,6 +54,27 @@ public class GameManager : MonoBehaviour
     }
     public void Update()
     {
+        Debug.Log(enemyAmount);
+
+        if(lastWave && enemyAmount <= 0)
+        {
+            endTimer -= Time.deltaTime;
+        } else if (endTimer != 5)
+        {
+            endTimer = 5;
+        }
+
+        if(endTimer <= 0)
+        {
+            Debug.Log("end of level");
+            nextMsg.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
+            }
+        }
+
+
         rollCooldown -= Time.deltaTime;
         if(rollCooldown <= 0) { 
         }
@@ -61,13 +91,21 @@ public class GameManager : MonoBehaviour
         {
             roll = true;
             order++;
-            savedSwitch = SwitchTimers[order];
+            if(order < SwitchTimers.Length) 
+            {
+                savedSwitch = SwitchTimers[order];
+            }
+            else 
+            {
+                savedSwitch = deafultTime;
+            }
+            
             
 
             SetNewEmotion();
 
             lastEmotion = currentEmotion.name;
-            Debug.Log(currentEmotion.name);
+            //Debug.Log(currentEmotion.name);
 
             //set speed, strength, picture, text, effect
             Player.GetComponent<Player>().speed = currentEmotion.SPEED;
