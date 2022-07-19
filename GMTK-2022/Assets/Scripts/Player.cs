@@ -58,12 +58,12 @@ public class Player : MonoBehaviour
             redwhiteEffect -= Time.deltaTime;
             savedCooldown -= Time.deltaTime;
             //Debug.Log(savedCooldown);
-            if(savedCooldown <= 0)
+            if (savedCooldown <= 0)
             {
                 AllowedToHit = true;
                 savedCooldown = HitCooldown;
             }
-            if(redwhiteEffect <= 0)
+            if (redwhiteEffect <= 0)
             {
                 if (transform.GetComponent<SpriteRenderer>().color == Color.red) { transform.GetComponent<SpriteRenderer>().color = Color.white; }
                 else { transform.GetComponent<SpriteRenderer>().color = Color.red; }
@@ -78,12 +78,7 @@ public class Player : MonoBehaviour
         }
         anim.speed = WalkSpeed;
 
-        if(Mathf.Abs(rb.velocity.x) > 0.2)
-        {
-            transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 16, transform.localScale.y, transform.localScale.z);
-
-        }
-
+        FlipSprite();
 
         if (!attacking)
         {
@@ -92,7 +87,7 @@ public class Player : MonoBehaviour
 
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
 
-            if ( Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+            if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
             {
                 if (!idleForward) { anim.Play($"Idle{CurrentEmotionName}"); }
                 else { anim.Play("Idleback"); }
@@ -134,20 +129,20 @@ public class Player : MonoBehaviour
             DisableHitForAttack = true;
             AllowedToAttack = false;
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * 3;
-            
+
             //HitCooldown = 3;
 
             attacking = true;
-            if(rb.velocity.y == 0)
+            if (rb.velocity.y == 0)
             {
-                if(CurrentEmotionName == "Happy")
+                if (CurrentEmotionName == "Happy")
                 {
                     anim.Play("HappyAttack");
                 }
                 else
                 {
                     anim.Play("SideAttack");
-                    if(CurrentEmotionName == "Angry")
+                    if (CurrentEmotionName == "Angry")
                     {
                         anim.Play("AngrySideAttack");
                     }
@@ -171,11 +166,14 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    if (rb.velocity.y > 0) { 
-                        anim.Play("ForwardAttack"); };
-                    if (rb.velocity.y < 0) {
+                    if (rb.velocity.y > 0)
+                    {
+                        anim.Play("ForwardAttack");
+                    };
+                    if (rb.velocity.y < 0)
+                    {
                         anim.Play("BackwardsAttack");
-                        if(CurrentEmotionName == "Angry")
+                        if (CurrentEmotionName == "Angry")
                         {
                             anim.Play("AngryFrontAttack");
                         }
@@ -191,11 +189,11 @@ public class Player : MonoBehaviour
 
 
             //-------EXTRA INSTANTIATION--------
-            if(CurrentEmotionName == "Sad")
+            if (CurrentEmotionName == "Sad")
             {
                 var q = Instantiate(Cloud, transform.position, Quaternion.identity);
                 q.GetComponent<Cloud>().foolowPlayer = true;
-                 Instantiate(Cloud, new Vector2(transform.position.x + 6, transform.position.y), Quaternion.identity);
+                Instantiate(Cloud, new Vector2(transform.position.x + 6, transform.position.y), Quaternion.identity);
                 Instantiate(Cloud, new Vector2(transform.position.x + -6, transform.position.y), Quaternion.identity);
                 Instantiate(Cloud, new Vector2(transform.position.x, transform.position.y + 6), Quaternion.identity);
                 Instantiate(Cloud, new Vector2(transform.position.x, transform.position.y + 6), Quaternion.identity);
@@ -211,21 +209,21 @@ public class Player : MonoBehaviour
         if (attacking)
         {
             attackDelaySave -= Time.deltaTime;
-            if(attackDelaySave <= 0)
+            if (attackDelaySave <= 0)
             {
                 StartLastSecondCooldown = true;
-              
+
                 attacking = false;
                 attackDelaySave = attackDelay;
             }
 
 
 
-            if(CurrentEmotionName == "Happy" && AllowStarCreation)
+            if (CurrentEmotionName == "Happy" && AllowStarCreation)
             {
                 var q = Instantiate(star, new Vector2(transform.position.x - 1, transform.position.y - 1), Quaternion.identity);
                 q.GetComponent<Rigidbody2D>().velocity = new Vector2(-7, -7);
-                var v = Instantiate(star, new Vector2(transform.position.x + 1, transform.position.y + 1),Quaternion.identity);
+                var v = Instantiate(star, new Vector2(transform.position.x + 1, transform.position.y + 1), Quaternion.identity);
                 v.GetComponent<Rigidbody2D>().velocity = new Vector2(7, 7);
                 var x = Instantiate(star, new Vector2(transform.position.x - 1, transform.position.y + 1), Quaternion.identity);
                 x.GetComponent<Rigidbody2D>().velocity = new Vector2(-7, 7);
@@ -243,13 +241,22 @@ public class Player : MonoBehaviour
         if (StartLastSecondCooldown)
         {
             extraSecondAttackCooldown -= Time.deltaTime;
-            if(extraSecondAttackCooldown <= 0)
+            if (extraSecondAttackCooldown <= 0)
             {
                 extraSecondAttackCooldown = 1;
                 DisableHitForAttack = false;
                 StartLastSecondCooldown = false;
             }
         }
-        
+
+    }
+
+    private void FlipSprite()
+    {
+        if (Mathf.Abs(rb.velocity.x) > 0.2 && !attacking)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 16, transform.localScale.y, transform.localScale.z);
+
+        }
     }
 }

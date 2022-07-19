@@ -14,13 +14,14 @@ public class enemyScript : MonoBehaviour {
 
     public float sightRange; //in units
     public float evasionRange; //in units
+    BoxCollider2D Col;
+    Vector2 ColSize;
+
+
 
     GameObject player;
 
-    private bool firstSpawn = true;
-    private float newSpeed;
-    private int newHp;
-    private int newDamage;
+ 
     bool reachedMid = false;
     Vector2 randPos;
     float cooldown = 6;
@@ -34,12 +35,13 @@ public class enemyScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Col = GetComponent<BoxCollider2D>();
+        ColSize = Col.size;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
         player = GameObject.Find("Player");
-        newSpeed = speed;
-        newDamage = damage;
+     
         randPos = new Vector3(0,0 );
          Direction = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0) - gameObject.transform.position;
         GameManage = GameObject.Find("GameManager");
@@ -50,46 +52,50 @@ public class enemyScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-
+        Col.size = ColSize;
         transform.GetComponent<SpriteRenderer>().sortingOrder =300 -(int)(transform.position.y * 10) ;
         transform.GetComponent<SpriteRenderer>().color = new Color(HP/10, HP/10, HP/10, 1);
-     
 
-        if (reachedMid)
+
+        if (!AlreadyDamaged)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) > 1.3f)
+            if (reachedMid)
             {
-                Vector2 Direction = player.transform.position - gameObject.transform.position;
-                rb.velocity = Direction.normalized * speed;
+                if (Vector3.Distance(transform.position, player.transform.position) > 1.3f)
+                {
+                    Vector2 Direction = player.transform.position - gameObject.transform.position;
+                    rb.velocity = Direction.normalized * speed;
+                }
+                else
+                {
+                    //rb.velocity = Vector2.zero;
+
+                    if (!player.GetComponent<Player>().DisableHitForAttack)
+                    {
+                        if (player.GetComponent<Player>().AllowedToHit)
+                        {
+                            player.GetComponent<Player>().HP -= damage;
+                            player.GetComponent<Player>().AllowedToHit = false;
+                            player.GetComponent<Player>().damage.Play();
+                        }
+                    }
+
+
+                }
+
+
             }
             else
             {
-                //rb.velocity = Vector2.zero;
+                cooldown -= Time.deltaTime;
+                if (cooldown <= 0) { reachedMid = true; }
+                rb.velocity = Direction.normalized * speed;
 
-                if (!player.GetComponent<Player>().DisableHitForAttack)
-                {
-                    if (player.GetComponent<Player>().AllowedToHit)
-                    {
-                        player.GetComponent<Player>().HP -= damage;
-                        player.GetComponent<Player>().AllowedToHit = false;
-                        player.GetComponent<Player>().damage.Play();
-                    }
-                }
-                
-              
+
+
             }
-
-
         }
-        else
-        {
-            cooldown -= Time.deltaTime;
-            if(cooldown <= 0) { reachedMid = true; }
-            rb.velocity = Direction.normalized * speed;
-
-            
-           
-        }
+      
 
         if(Mathf.Abs(rb.velocity.y) > 0.3)
         {
@@ -108,21 +114,24 @@ public class enemyScript : MonoBehaviour {
 
         if (AlreadyDamaged)
         {
+            Col.size = Vector2.zero;
             Delay -= Time.deltaTime;
+          
             if (Delay <= 0)
             {
-                Delay = 1f;
+                Delay = 0.5f;
                 AlreadyDamaged = false;
             }
+            rb.velocity = -(player.transform.position - transform.position).normalized * 5;
         }
 
 
-
+        Debug.Log(AlreadyDamaged);
 
     }
 
     bool AlreadyDamaged = false;
-    float Delay = 1f;
+    float Delay = 0.5f;
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!AlreadyDamaged)
@@ -137,6 +146,7 @@ public class enemyScript : MonoBehaviour {
                     GameManage.GetComponent<GameManager>().enemyAmount -= 1;
                 }
                 AlreadyDamaged = true;
+                
 
 
             }

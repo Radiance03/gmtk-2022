@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IMAGE: {fileID: 21300000, guid: df1830007b04d4e4abee5ed3f2aebfd3, type: 3}
   NAME: Stable
-  SPEED: 3
-  STRENGTH: 3
+  SPEED: 5
+  STRENGTH: 10
   WALKSPEEDANIMATOR: 1
   Panel: {fileID: 21300000, guid: 8d7f11de642a2924ea3e18f9589ac6e4, type: 3}
   COOLDOWN: 2

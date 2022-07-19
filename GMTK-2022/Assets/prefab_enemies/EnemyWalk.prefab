@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4926247532570092}
   - component: {fileID: 114520864040956524}
-  - component: {fileID: 58546022360220776}
   - component: {fileID: 212851633692525760}
   - component: {fileID: 50281375492264250}
   - component: {fileID: 9217375560181481450}
-  - component: {fileID: 1831494984187856199}
+  - component: {fileID: 2381202976500441470}
   m_Layer: 0
   m_Name: EnemyWalk
   m_TagString: enemy
@@ -56,22 +55,6 @@ MonoBehaviour:
   range: 4
   sightRange: 1
   evasionRange: 2
---- !u!58 &58546022360220776
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353859199803150}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.02}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!212 &212851633692525760
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -163,8 +146,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!58 &1831494984187856199
-CircleCollider2D:
+--- !u!61 &2381202976500441470
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -176,6 +159,16 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.2}
+  m_Offset: {x: 0.02168417, y: -0.065052986}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.0666666, y: 3.2666667}
+    newSize: {x: 3.1333334, y: 3.1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.85
+  m_Size: {x: 1.1125631, y: 2.572773}
+  m_EdgeRadius: 0
