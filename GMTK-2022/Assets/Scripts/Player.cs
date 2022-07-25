@@ -5,15 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //public BoxCollider2D HitCheckUp;
-
+    public GameObject GameManage;
     public bool AllowedToHit = true;
     public bool DisableHitForAttack = false;
     private bool StartLastSecondCooldown = false;
-    float HitCooldown = 2;
+    float HitCooldown = 1;
     float extraSecondAttackCooldown = 1;
 
     float savedCooldown;
-    public int HP = 100;
+    public int HP = 30;
 
     bool idleForward = false;
     private Animator anim;
@@ -129,8 +129,6 @@ public class Player : MonoBehaviour
             DisableHitForAttack = true;
             AllowedToAttack = false;
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * 3;
-
-            //HitCooldown = 3;
 
             attacking = true;
             if (rb.velocity.y == 0)
@@ -249,7 +247,22 @@ public class Player : MonoBehaviour
             }
         }
 
+        if(HP <= 0)
+        {
+            GameManage.GetComponent<GameManager>().playerHasDied = true;
+            Destroy(gameObject);
+        }
+
+        if (attacking && Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+        {
+            StartLastSecondCooldown = true;
+
+            attacking = false;
+            attackDelaySave = attackDelay;
+        }
+
     }
+   
 
     private void FlipSprite()
     {

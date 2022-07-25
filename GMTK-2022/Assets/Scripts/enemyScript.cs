@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class enemyScript : MonoBehaviour {
 
+    private  GameObject EnemySpawn;
     private GameObject GameManage;
     public float HP = 10;
     public float speed;
@@ -11,6 +12,7 @@ public class enemyScript : MonoBehaviour {
     public int fireRate; //frames between shots
     public float fireDeg; //degrees of randomness in arc of bullets
     public float range; //in units
+   
 
     public float sightRange; //in units
     public float evasionRange; //in units
@@ -22,7 +24,7 @@ public class enemyScript : MonoBehaviour {
     GameObject player;
 
  
-    bool reachedMid = false;
+    bool reachedMid = true;
     Vector2 randPos;
     float cooldown = 6;
     Vector2 Direction;
@@ -35,6 +37,7 @@ public class enemyScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        EnemySpawn = GameObject.Find("EnemySpawner");
         Col = GetComponent<BoxCollider2D>();
         ColSize = Col.size;
         rb = GetComponent<Rigidbody2D>();
@@ -141,6 +144,10 @@ public class enemyScript : MonoBehaviour {
                 HP -= GameManage.GetComponent<GameManager>().currentEmotion.STRENGTH;
                 if (HP <= 0)
                 {
+                    EnemySpawn.GetComponent<enemySpawner>().AmountOfEnemies--;
+                    
+                    GameManage.GetComponent<GameManager>().enemiesDestroyed++;
+
                     GameManage.GetComponent<GameManager>().EnemyDeath.Play();
                     Destroy(gameObject);
                     GameManage.GetComponent<GameManager>().enemyAmount -= 1;

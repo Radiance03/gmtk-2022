@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     int order;
 
     public GameObject Player;
-
+    public bool playerHasDied;
     // -------------UI---------------
     public GameObject TextInfo;
     public GameObject TextInfo2;
@@ -33,11 +33,15 @@ public class GameManager : MonoBehaviour
     public GameObject EmotionDisplay;
     public string EmotionName;
 
+    public GameObject emotionPanel;
     public GameObject panel;
+    public GameObject faceCam;
     public GameObject dice;
+    public GameObject death;
     bool roll = false;
     float attackCooldown;
 
+    public float enemiesDestroyed;
     public int enemyAmount = 0;
     public bool lastWave = false;
     
@@ -83,6 +87,19 @@ public class GameManager : MonoBehaviour
             attackCooldown = currentEmotion.COOLDOWN;
         }
 
+
+        if(playerHasDied)
+        {
+            death.SetActive(true);
+            DisableScreenInfo();
+        }
+    }
+
+    public void DisableScreenInfo()
+    {
+        panel.SetActive(false);
+        faceCam.SetActive(false);
+        dice.SetActive(false);
     }
 
     private void RenderText()
@@ -142,7 +159,7 @@ public class GameManager : MonoBehaviour
         else if (currentEmotion.STRENGTH == 5) { strengthinfo = "STRONGEST"; } else { strengthinfo = "Error"; };
 
 
-        panel.GetComponent<Image>().sprite = currentEmotion.Panel;
+        emotionPanel.GetComponent<Image>().sprite = currentEmotion.Panel;
 
 
         TextInfo.GetComponent<Text>().text =

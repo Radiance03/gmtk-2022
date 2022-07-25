@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IMAGE: {fileID: 21300000, guid: 777df5ebc3ce11248a0161794d99361e, type: 3}
   NAME: Sad
-  SPEED: 3
+  SPEED: 2
   STRENGTH: 10
   WALKSPEEDANIMATOR: 1
   Panel: {fileID: 21300000, guid: 341205f0c33a6264e8dc918508fb18a0, type: 3}
