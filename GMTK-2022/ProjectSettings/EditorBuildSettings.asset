@@ -9,20 +9,23 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: ac049a26c8bdd29489fa95fb08246bae
   - enabled: 0
-    path: Assets/Scenes/LEVEL1.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/TEST.unity
-    guid: f04889151b1053a4c8318c4225a44fb7
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/LEVEL1FINAL.unity
+    guid: 1004f9b32107e1147906b4e22a07ec73
+  - enabled: 1
+    path: Assets/Scenes/LEVEL2FINAL.unity
     guid: 239c657e86291f045abaa7ac5c9040e3
   - enabled: 0
-    path: Assets/Scenes/LEVEL2FINAL.unity
-    guid: 2956772a442452a4a80b80e9996d94b8
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/LEVELINFINITE.unity
-    guid: 0713b41533a23be4fa2d76419a6e9f18
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/TUTORIAL.unity
     guid: a31809bd515c8d5418e103325b07cee3

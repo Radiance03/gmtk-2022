@@ -199,10 +199,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "the dice that lays in your heart will guide your way.\ndo not fear your
     emotions, embrace them.\nthe dice can be your biggest strength, or your worst
-    fear, its up to you to decide.\n\nthe dice's faces are neither positive or negative,
-    they are just the way they are.\n\nunderstand that the dice is will roll on pure
-    chance, and there is nothing you can do to change that.\n\n\n\n\nControls are
-    WASD + Space, You'll figure out the rest\n        Press Space to continue\n"
+    fear, its up to you to decide.\n\n\n\n\n\n\n\nunderstand that the dice is will
+    roll on pure chance, and there is nothing you can do to change that.\n\nControls
+    are WASD + Space, You'll figure out the rest\n        Press Space to continue\n"
 --- !u!1 &3654971669258121448
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ public class enemyScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        EnemySpawn = GameObject.Find("EnemySpawner");
+        EnemySpawn = GameObject.Find("Spawner");
         Col = GetComponent<BoxCollider2D>();
         ColSize = Col.size;
         rb = GetComponent<Rigidbody2D>();
@@ -144,13 +144,13 @@ public class enemyScript : MonoBehaviour {
                 HP -= GameManage.GetComponent<GameManager>().currentEmotion.STRENGTH;
                 if (HP <= 0)
                 {
-                    EnemySpawn.GetComponent<enemySpawner>().AmountOfEnemies--;
-                    
-                    GameManage.GetComponent<GameManager>().enemiesDestroyed++;
 
+                    EnemySpawn.GetComponent<enemySpawner>().AmountOfEnemies--;
+                    GameManage.GetComponent<GameManager>().enemiesDestroyed++;
                     GameManage.GetComponent<GameManager>().EnemyDeath.Play();
-                    Destroy(gameObject);
                     GameManage.GetComponent<GameManager>().enemyAmount -= 1;
+                    Destroy(gameObject);
+
                 }
                 AlreadyDamaged = true;
                 
